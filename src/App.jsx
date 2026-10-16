@@ -3,6 +3,7 @@ import { SettingsProvider, useSettings } from './settings.jsx';
 import { BUILTIN_SCENES } from './scenes/index.js';
 import { listPhotoScenes } from './lib/storage.js';
 import { shuffle } from './lib/util.js';
+import { makeHard } from './lib/hard.js';
 import { unlockSpeech, stopSpeech } from './lib/speech.js';
 import { unlockAudio } from './lib/sfx.js';
 import HomeScreen from './screens/HomeScreen.jsx';
@@ -70,9 +71,11 @@ function Main() {
   }, []);
 
   const start = (sceneId, mode) => {
-    const scene = findScene(sceneId);
-    if (!scene) return;
-    go('play', { sceneId, mode, queue: makeQueue(scene, settings.rounds), key: Date.now() });
+    const base = findScene(sceneId);
+    if (!base) return;
+    // Hard mode re-shuffles what is hidden every game.
+    const scene = settings.difficulty === 'hard' && mode !== 'explore' ? makeHard(base) : base;
+    go('play', { sceneId, mode, scene, queue: makeQueue(scene, settings.rounds), key: Date.now() });
   };
 
   switch (route.name) {
@@ -80,7 +83,7 @@ function Main() {
       return <SetupScreen scenes={scenes} initialSceneId={route.sceneId} go={go} onStart={start} />;
 
     case 'play': {
-      const scene = findScene(route.sceneId);
+      const scene = route.scene || findScene(route.sceneId);
       if (!scene) return <HomeScreen go={go} />;
       const exit = () => go('setup', { sceneId: scene.id });
       const finish = (result) => go('results', { sceneId: scene.id, mode: route.mode, result });

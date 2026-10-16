@@ -14,6 +14,7 @@ export const DEFAULT_SETTINGS = {
   ],
   rounds: 8,
   mode: 'together',
+  difficulty: 'easy',
   showIndonesian: true,
   showPicture: true,
   voice: true,

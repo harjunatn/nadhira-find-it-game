@@ -2,6 +2,7 @@
 // scripts/render-scene.mjs, so keep it free of CSS imports and browser-only APIs.
 import { memo } from 'react';
 import { hitShape, sceneSize } from '../lib/geometry.js';
+import { fluentUrl } from '../lib/fluent.js';
 
 const EMOJI_FONT = "'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif";
 
@@ -10,9 +11,12 @@ export function GlyphInner({ obj, upright = false }) {
   const Art = obj.art;
   const rotate = upright ? 0 : obj.rotate || 0;
   const flip = obj.flip ? -1 : 1;
+  const picture = obj.emoji ? fluentUrl(obj.emoji) : null;
   return (
     <g transform={`rotate(${rotate}) scale(${flip} 1)`}>
-      {obj.emoji ? (
+      {picture ? (
+        <image href={picture} x="-50" y="-50" width="100" height="100" preserveAspectRatio="xMidYMid meet" />
+      ) : obj.emoji ? (
         <text x="0" y="0" fontSize="100" textAnchor="middle" dominantBaseline="central" fontFamily={EMOJI_FONT}>
           {obj.emoji}
         </text>
@@ -49,6 +53,9 @@ export function SceneObjects({ scene, states }) {
     <g>
       {scene.objects.map((obj) => (
         <ObjectGlyph key={obj.id} obj={obj} className={states && states[obj.id] ? `obj-anim is-${states[obj.id]}` : 'obj-anim'} />
+      ))}
+      {(scene.covers || []).map((c) => (
+        <ObjectGlyph key={c.id} obj={c} />
       ))}
     </g>
   );

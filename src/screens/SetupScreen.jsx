@@ -82,6 +82,22 @@ export default function SetupScreen({ scenes, initialSceneId, go, onStart }) {
         <div className="setup-actions">
           {settings.mode !== 'explore' && (
             <div className="rounds">
+              <span className="rounds-label">Level</span>
+              <Chips
+                value={settings.difficulty}
+                onChange={(v) => update({ difficulty: v })}
+                options={[
+                  { value: 'easy', label: '😊 Easy' },
+                  { value: 'hard', label: '🔎 Hard' },
+                ]}
+              />
+            </div>
+          )}
+          {settings.mode !== 'explore' && settings.difficulty === 'hard' && settings.showIndonesian && (
+            <span className="id-text">Benda lebih kecil & ada yang tersembunyi di balik kardus/semak</span>
+          )}
+          {settings.mode !== 'explore' && (
+            <div className="rounds">
               <span className="rounds-label">How many?</span>
               <Chips
                 value={settings.rounds}

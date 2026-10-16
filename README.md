@@ -17,6 +17,7 @@ Tema bawaan: Bedroom, Living Room, Bathroom, Kitchen, Zoo, Busy Street.
 
 Fitur lain:
 - **Tap salah = tetap belajar**: game bilang "Oops! That's the bed."
+- **😊 Easy / 🔎 Hard**: di mode Hard benda lebih kecil dan sebagian tersembunyi di balik kardus, tas, semak, atau batu (posisinya diacak tiap main).
 - **💡 Hint**: benda target berkedip dan muncul panah 👇 (otomatis setelah 15 detik, bisa diatur).
 - **📒 Sticker Book**: setiap benda yang ditemukan jadi stiker koleksi.
 - **📷 Photo Scenes**: foto halaman buku bergambar (seperti buku *Busy Street*), crop, lalu tap
@@ -57,6 +58,10 @@ npm run build
 
 Folder `dist/` berisi website statis yang bisa di-upload ke hosting gratis mana pun
 (Netlify Drop, GitHub Pages, Vercel, dll.).
+
+## Gambar
+
+Model 3D benda memakai [Microsoft Fluent Emoji](https://github.com/microsoft/fluentui-emoji) (lisensi MIT), dimuat dari jsDelivr. Furnitur besar dan latar digambar sebagai SVG.
 
 ## Untuk pengembang
 

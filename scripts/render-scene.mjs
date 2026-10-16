@@ -70,6 +70,7 @@ function shoot(html, png, width, height) {
         '--no-default-browser-check',
         `--user-data-dir=${profile}`,
         '--force-device-scale-factor=1',
+        '--virtual-time-budget=8000',
         `--window-size=${width},${height}`,
         `--screenshot=${png}`,
         `file://${file}`,

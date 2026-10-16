@@ -373,8 +373,8 @@ const bathroom = {
     {
       id: 'soap', word: 'soap', wordId: 'sabun', emoji: '🧼', x: 548, y: 580, size: 90,
       sentence: 'The soap makes lots of bubbles.', sentenceId: 'Sabunnya bikin banyak gelembung.',
-      question: 'Is the soap green or blue?', questionId: 'Sabunnya hijau atau biru?',
-      answer: 'The soap is green.', answerId: 'Sabunnya hijau.',
+      question: 'Is the soap pink or blue?', questionId: 'Sabunnya pink atau biru?',
+      answer: 'The soap is pink.', answerId: 'Sabunnya pink.',
     },
     {
       id: 'toothbrush', word: 'toothbrush', wordId: 'sikat gigi', emoji: '🪥', x: 762, y: 578, size: 92, rotate: 42,

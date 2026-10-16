@@ -520,7 +520,7 @@ const street = {
     },
     {
       id: 'scooter', word: 'scooter', wordId: 'skuter', emoji: '🛵', x: 470, y: 805, size: 140, flip: true,
-      sentence: 'The yellow scooter goes beep beep!', sentenceId: 'Skuter kuning berbunyi tin tin!',
+      sentence: 'The red scooter goes beep beep!', sentenceId: 'Skuter merah berbunyi tin tin!',
       question: 'Do you wear a helmet on a scooter?', questionId: 'Kamu pakai helm kalau naik skuter?',
       answer: 'Yes, I wear a helmet.', answerId: 'Ya, aku pakai helm.',
     },

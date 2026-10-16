@@ -54,6 +54,7 @@ export function SceneObjects({ scene, states }) {
       {scene.objects.map((obj) => (
         <ObjectGlyph key={obj.id} obj={obj} className={states && states[obj.id] ? `obj-anim is-${states[obj.id]}` : 'obj-anim'} />
       ))}
+      {scene.Foreground && <scene.Foreground />}
       {(scene.covers || []).map((c) => (
         <ObjectGlyph key={c.id} obj={c} />
       ))}

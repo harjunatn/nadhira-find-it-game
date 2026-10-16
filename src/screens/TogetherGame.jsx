@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import SceneView, { bubblePoint } from '../components/SceneView.jsx';
-import { FoundCard, ScoreCard, TargetBanner, WhoFound, findLine, sentenceOf } from '../components/GameParts.jsx';
+import { FoundCard, ScoreCard, TargetBanner, WhoFound } from '../components/GameParts.jsx';
+import { line, objectLines } from '../lib/phrases.js';
 import { ConfirmDialog } from '../components/ui.jsx';
 import { useSettings } from '../settings.jsx';
-import { speak, stopSpeech } from '../lib/speech.js';
+import { prefetchLines, speak, stopSpeech } from '../lib/speech.js';
 import { sfx } from '../lib/sfx.js';
 import { recordFound } from '../lib/storage.js';
 import { useEffectsLayer, useMediaQuery, useTimers } from '../lib/util.js';
@@ -28,7 +29,7 @@ export default function TogetherGame({ scene, queue, onExit, onFinish }) {
     setPhase('seek');
     setHint(false);
     setWrongId(null);
-    const say = later(() => speak(findLine(target)), 450);
+    const say = later(() => speak(line.find(target)), 450);
     const hintTimer = settings.autoHint ? later(() => setHint(true), settings.autoHint * 1000) : null;
     return () => {
       cancel(say);
@@ -38,7 +39,11 @@ export default function TogetherGame({ scene, queue, onExit, onFinish }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [round]);
 
-  useEffect(() => () => stopSpeech(), []);
+  useEffect(() => {
+    prefetchLines(queue.flatMap(objectLines));
+    return () => stopSpeech();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Lets automated checks find the current target (development builds only).
   useEffect(() => {
@@ -65,7 +70,7 @@ export default function TogetherGame({ scene, queue, onExit, onFinish }) {
       fx.add({ type: 'burst', x: obj.x, y: obj.y }, 1300);
       setPhase('celebrate');
       recordFound(scene.id, obj.id);
-      speak([`You found the ${obj.word}!`, sentenceOf(obj)]);
+      speak([line.found(obj), line.sentence(obj)]);
       later(() => setPhase((p) => (p === 'celebrate' ? 'found' : p)), 1100);
       return;
     }
@@ -73,14 +78,14 @@ export default function TogetherGame({ scene, queue, onExit, onFinish }) {
     setWrongId(obj.id);
     later(() => setWrongId((id) => (id === obj.id ? null : id)), 650);
     fx.add({ type: 'bubble', ...bubblePoint(obj), text: `That's the ${obj.word}!` }, 1700);
-    speak(`Oops! That's the ${obj.word}.`);
+    speak(line.oops(obj));
   }
 
   function giveHint() {
     if (phase !== 'seek') return;
     sfx.pop();
     setHint(true);
-    speak(findLine(target));
+    speak(line.find(target));
   }
 
   function award(who) {

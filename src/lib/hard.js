@@ -4,7 +4,7 @@
 
 const INDOOR = ['📦', '🛍️', '🎁', '🧺'];
 const OUTDOOR = ['🌿', '🪨', '🪵', '📦', '🌳'];
-const OUTDOOR_SCENES = new Set(['zoo', 'street']);
+const OUTDOOR_SCENES = new Set(['zoo', 'street', 'playground']);
 
 const SHRINK = 0.72;
 const MAX_HIDE_SIZE = 220; // big furniture is never hidden or shrunk

@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import SceneView, { bubblePoint } from '../components/SceneView.jsx';
-import { FoundCard, TargetBanner, findLine, sentenceOf } from '../components/GameParts.jsx';
+import { FoundCard, TargetBanner } from '../components/GameParts.jsx';
+import { line, objectLines } from '../lib/phrases.js';
 import { Avatar, ConfirmDialog } from '../components/ui.jsx';
 import { useSettings } from '../settings.jsx';
-import { speak, stopSpeech } from '../lib/speech.js';
+import { prefetchLines, speak, stopSpeech } from '../lib/speech.js';
 import { sfx } from '../lib/sfx.js';
 import { recordFound } from '../lib/storage.js';
 import { useEffectsLayer, useMediaQuery, useTimers } from '../lib/util.js';
@@ -39,14 +40,18 @@ export default function RaceGame({ scene, queue, onExit, onFinish }) {
     setHint(false);
     const wait = settings.headStart || 0;
     setCountdown(wait);
-    const timers = [later(() => speak(findLine(target)), 450)];
+    const timers = [later(() => speak(line.find(target)), 450)];
     for (let i = 1; i <= wait; i++) timers.push(later(() => setCountdown(wait - i), i * 1000));
     if (settings.autoHint) timers.push(later(() => setHint(true), (settings.autoHint + wait) * 1000));
     return () => timers.forEach(cancel);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [round]);
 
-  useEffect(() => () => stopSpeech(), []);
+  useEffect(() => {
+    prefetchLines(queue.flatMap(objectLines));
+    return () => stopSpeech();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Lets automated checks find the current target (development builds only).
   useEffect(() => {
@@ -64,7 +69,7 @@ export default function RaceGame({ scene, queue, onExit, onFinish }) {
     setFound((f) => [...f, { id: target.id, who: index }]);
     recordFound(scene.id, target.id);
     sfx.correct();
-    speak([`${players[index].name} found the ${target.word}!`, sentenceOf(target)]);
+    speak([line.there(target), line.sentence(target)]);
     later(() => {
       if (phaseRef.current === 'celebrate') setPhase('found');
     }, 1200);

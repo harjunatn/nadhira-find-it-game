@@ -4,6 +4,7 @@ import { useSettings } from '../settings.jsx';
 import { AVATARS, PLAYER_COLORS, resetProgress } from '../lib/storage.js';
 import { currentVoiceName, englishVoices, onVoicesChanged, speak, speechSupported } from '../lib/speech.js';
 import { sfx } from '../lib/sfx.js';
+import { FIXED } from '../lib/phrases.js';
 
 export default function SettingsScreen({ go }) {
   const { settings, update } = useSettings();
@@ -86,8 +87,8 @@ export default function SettingsScreen({ go }) {
           <>
             <div className="setting-row">
               <div>
-                <div className="toggle-label">Voice</div>
-                <div className="id-text">Pilih suara. Di iPad bisa unduh suara lebih bagus: Settings › Accessibility › Spoken Content › Voices › English.</div>
+                <div className="toggle-label">Backup voice</div>
+                <div className="id-text">Semua tema bawaan sudah memakai suara rekaman yang natural. Suara ini hanya dipakai untuk Photo Scenes buatan sendiri.</div>
               </div>
               <select
                 className="select"
@@ -112,7 +113,7 @@ export default function SettingsScreen({ go }) {
               </div>
               <Chips value={settings.speechRate} onChange={(v) => update({ speechRate: v })} options={[{ value: 0.7, label: '🐢 Slow' }, { value: 0.85, label: '🙂 Normal' }, { value: 1, label: '🐇 Fast' }]} />
             </div>
-            <button type="button" className="btn btn-blue" onClick={() => speak('Hello! Can you find the lamp? The lamp can turn on.')}>
+            <button type="button" className="btn btn-blue" onClick={() => speak(FIXED.voiceTest)}>
               🔊 Test voice
             </button>
           </>

@@ -1,5 +1,6 @@
 import { sfx } from '../lib/sfx.js';
 import { speak } from '../lib/speech.js';
+import { FIXED } from '../lib/phrases.js';
 
 const FLOATERS = ['🦁', '🛁', '🛋️', '🧸', '🚌', '🐘', '💡', '🍎', '🦒', '🚗', '🌟', '🎈'];
 
@@ -18,7 +19,7 @@ export default function HomeScreen({ go }) {
         ))}
       </div>
       <div className="home-card">
-        <button type="button" className="logo" onClick={() => speak("Find it! Let's play and learn English together!")}>
+        <button type="button" className="logo" onClick={() => speak(FIXED.welcome)}>
           <span className="logo-glass">🔍</span>
           <span className="logo-text">Find It!</span>
         </button>

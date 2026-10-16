@@ -1,13 +1,9 @@
 import { ObjectArt } from './SceneGraphics.jsx';
 import { Avatar, SpeakButton, Stars } from './ui.jsx';
+import { line } from '../lib/phrases.js';
 
-export function findLine(obj) {
-  return `Find the ${obj.word}!`;
-}
-
-export function sentenceOf(obj) {
-  return obj.sentence || `I can see the ${obj.word}.`;
-}
+export const findLine = line.find;
+export const sentenceOf = line.sentence;
 
 // Photo scenes made by parents may leave the talk prompt empty; give them a simple one.
 export function talkOf(obj) {

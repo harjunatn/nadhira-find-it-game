@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { ObjectArt } from '../components/SceneGraphics.jsx';
-import { sentenceOf } from '../components/GameParts.jsx';
+import { FIXED, line } from '../lib/phrases.js';
 import { Avatar, Stars } from '../components/ui.jsx';
 import { useSettings } from '../settings.jsx';
 import { speak } from '../lib/speech.js';
@@ -19,7 +19,7 @@ export default function ResultsScreen({ scene, result, onAgain, onChoose, onHome
 
   useEffect(() => {
     sfx.fanfare();
-    const t = setTimeout(() => speak([headline.replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu, '').trim(), 'Great job, everyone!']), 700);
+    const t = setTimeout(() => speak([winner === null ? FIXED.tie : FIXED.winner, FIXED.greatJob]), 700);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -59,7 +59,7 @@ export default function ResultsScreen({ scene, result, onAgain, onChoose, onHome
             {settings.showIndonesian && <p className="id-text">Tap untuk dengar lagi</p>}
             <div className="word-chips">
               {words.map(({ obj }) => (
-                <button type="button" key={obj.id} className="word-chip" onClick={() => speak([obj.word, sentenceOf(obj)])}>
+                <button type="button" key={obj.id} className="word-chip" onClick={() => speak([line.word(obj), line.sentence(obj)])}>
                   <ObjectArt scene={scene} obj={obj} size={44} />
                   <span>{obj.word}</span>
                 </button>

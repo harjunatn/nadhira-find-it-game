@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ObjectArt } from '../components/SceneGraphics.jsx';
-import { FoundCard, sentenceOf } from '../components/GameParts.jsx';
+import { FoundCard } from '../components/GameParts.jsx';
+import { line } from '../lib/phrases.js';
 import { Modal, TopBar } from '../components/ui.jsx';
 import { useSettings } from '../settings.jsx';
 import { loadProgress } from '../lib/storage.js';
@@ -61,10 +62,10 @@ export default function StickerBook({ scenes, go }) {
                   if (n) {
                     sfx.pop();
                     setOpen(o);
-                    speak([o.word, sentenceOf(o)]);
+                    speak([line.word(o), line.sentence(o)]);
                   } else {
                     sfx.tap();
-                    speak(`Can you find me in the ${scene.title.toLowerCase()}?`);
+                    speak(line.missing(scene));
                   }
                 }}
               >

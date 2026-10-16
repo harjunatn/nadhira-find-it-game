@@ -13,7 +13,7 @@ untuk ngobrol bareng dalam bahasa Inggris. Semua kalimat bisa dibacakan (tombol 
 | 🏁 **Race** | Layar dibagi dua, tiap pemain punya gambar sendiri, tap pertama yang benar menang. iPad **tegak**: duduk berhadapan (layar atas terbalik). iPad **miring**: duduk bersebelahan. Pemain 2 (orang tua) bisa diberi waktu tunggu supaya si kecil dapat kesempatan duluan. |
 | 👀 **Explore** | Tanpa lomba: tap apa saja untuk mendengar nama dan kalimatnya. Cocok untuk pemanasan. |
 
-Tema bawaan: Bedroom, Living Room, Bathroom, Kitchen, Zoo, Busy Street.
+Tema bawaan (12): Bedroom, Living Room, Bathroom, Kitchen, Zoo, Busy Street, Dentist, Supermarket, School, Playground, Fashion Store, Laboratory.
 
 Fitur lain:
 - **Tap salah = tetap belajar**: game bilang "Oops! That's the bed."
@@ -47,8 +47,8 @@ http://192.168.1.10:5173
 
 Supaya tampil penuh seperti aplikasi: di Safari iPad tekan **Share › Add to Home Screen**.
 
-> Tips suara: pastikan iPad tidak dalam mode Silent dan volume cukup. Suara Inggris yang lebih
-> bagus bisa diunduh di iPad: Settings › Accessibility › Spoken Content › Voices › English.
+> Tips suara: pastikan volume iPad cukup. Semua kalimat di tema bawaan sudah direkam dengan suara
+> natural (lihat bagian "Suara" di bawah), jadi tidak perlu pengaturan suara di iPad.
 
 ### Versi siap-pakai (tanpa Mac menyala)
 
@@ -62,6 +62,18 @@ Folder `dist/` berisi website statis yang bisa di-upload ke hosting gratis mana 
 ## Gambar
 
 Model 3D benda memakai [Microsoft Fluent Emoji](https://github.com/microsoft/fluentui-emoji) (lisensi MIT), dimuat dari jsDelivr. Furnitur besar dan latar digambar sebagai SVG.
+
+## Suara
+
+Semua kalimat di tema bawaan direkam lebih dulu dengan [Kokoro](https://huggingface.co/hexgrad/Kokoro-82M)
+(model suara open-source, lisensi Apache 2.0, suara `af_heart`) dan disimpan di `public/voice/`.
+Kalimat yang tidak punya rekaman (misalnya Photo Scenes buatan sendiri) memakai suara bawaan perangkat.
+
+Setelah mengubah atau menambah kalimat di scene, rekam ulang. Hanya kalimat baru/berubah yang direkam:
+
+```bash
+cd tools/voice && npm install && node generate.mjs
+```
 
 ## Untuk pengembang
 

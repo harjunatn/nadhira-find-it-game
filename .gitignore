@@ -5,3 +5,5 @@ dist
 dist-artifact
 IMG_*.jpeg
 *.HEIC
+tools/voice/node_modules
+tools/voice/.cache

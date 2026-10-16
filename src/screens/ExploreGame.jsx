@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import SceneView, { bubblePoint } from '../components/SceneView.jsx';
-import { FoundCard, sentenceOf } from '../components/GameParts.jsx';
+import { FoundCard } from '../components/GameParts.jsx';
+import { line } from '../lib/phrases.js';
 import { useSettings } from '../settings.jsx';
 import { speak, stopSpeech } from '../lib/speech.js';
 import { sfx } from '../lib/sfx.js';
@@ -15,7 +16,7 @@ export default function ExploreGame({ scene, onExit }) {
   const fx = useEffectsLayer();
 
   useEffect(() => {
-    const t = setTimeout(() => speak(`Let's explore the ${scene.title.toLowerCase()}! Tap anything.`), 400);
+    const t = setTimeout(() => speak(line.explore(scene)), 400);
     return () => {
       clearTimeout(t);
       stopSpeech();
@@ -34,7 +35,7 @@ export default function ExploreGame({ scene, onExit }) {
     setSelected(obj);
     setSeen((s) => new Set(s).add(obj.id));
     fx.add({ type: 'bubble', ...bubblePoint(obj), text: obj.word }, 1500);
-    speak([`The ${obj.word}.`, sentenceOf(obj)]);
+    speak([line.word(obj), line.sentence(obj)]);
   }
 
   return (

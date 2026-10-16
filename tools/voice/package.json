@@ -1,0 +1,9 @@
+{
+  "name": "find-it-voice-tools",
+  "private": true,
+  "type": "module",
+  "description": "Records every game line with the Kokoro TTS model (runs only on the developer's Mac).",
+  "dependencies": {
+    "kokoro-js": "1.2.1"
+  }
+}

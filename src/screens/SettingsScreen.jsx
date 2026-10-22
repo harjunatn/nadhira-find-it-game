@@ -39,7 +39,15 @@ export default function SettingsScreen({ go }) {
                 <Avatar player={p} size="lg" />
                 <label className="field grow">
                   <span className="field-label">Player {i + 1} name {i === 0 ? '(the little one)' : '(grown-up)'}</span>
-                  <input value={p.name} maxLength={14} onChange={(e) => setPlayer(i, { name: e.target.value })} onBlur={(e) => !e.target.value.trim() && setPlayer(i, { name: `Player ${i + 1}` })} />
+                  <input
+                    value={p.name}
+                    maxLength={14}
+                    enterKeyHint="done"
+                    autoComplete="off"
+                    onChange={(e) => setPlayer(i, { name: e.target.value })}
+                    onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
+                    onBlur={(e) => !e.target.value.trim() && setPlayer(i, { name: `Player ${i + 1}` })}
+                  />
                 </label>
               </div>
               <div className="avatar-picker">
@@ -139,6 +147,12 @@ export default function SettingsScreen({ go }) {
           <li>Mode Race di iPad tegak (portrait): duduk berhadapan. iPad miring (landscape): duduk bersebelahan.</li>
         </ul>
       </section>
+
+      <div className="settings-done">
+        <button type="button" className="btn btn-big btn-play" onClick={() => go('home')}>
+          ✓ Done
+        </button>
+      </div>
 
       {confirmReset && (
         <ConfirmDialog

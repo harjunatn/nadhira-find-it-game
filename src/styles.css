@@ -25,6 +25,11 @@ body,
   margin: 0;
 }
 
+/* Same colour as the screens, so nothing white shows if Safari shifts the page. */
+html {
+  background: var(--sky1);
+}
+
 body {
   font-family: 'Baloo 2', ui-rounded, 'SF Pro Rounded', 'Arial Rounded MT Bold', system-ui, sans-serif;
   color: var(--ink);
@@ -1912,4 +1917,10 @@ h3 {
 }
 .editor-help .row {
   margin: 12px 0 6px;
+}
+
+.settings-done {
+  display: flex;
+  justify-content: center;
+  padding: 8px 16px calc(28px + env(safe-area-inset-bottom));
 }

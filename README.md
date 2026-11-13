@@ -13,7 +13,7 @@ untuk ngobrol bareng dalam bahasa Inggris. Semua kalimat bisa dibacakan (tombol 
 | 🏁 **Race** | Layar dibagi dua, tiap pemain punya gambar sendiri, tap pertama yang benar menang. iPad **tegak**: duduk berhadapan (layar atas terbalik). iPad **miring**: duduk bersebelahan. Pemain 2 (orang tua) bisa diberi waktu tunggu supaya si kecil dapat kesempatan duluan. |
 | 👀 **Explore** | Tanpa lomba: tap apa saja untuk mendengar nama dan kalimatnya. Cocok untuk pemanasan. |
 
-Tema bawaan (12): Bedroom, Living Room, Bathroom, Kitchen, Zoo, Busy Street, Dentist, Supermarket, School, Playground, Fashion Store, Laboratory.
+Tema bawaan (22): Bedroom, Living Room, Bathroom, Kitchen, Zoo, Busy Street, Dentist, Supermarket, School, Playground, Fashion Store, Laboratory, Farm, Beach, Garden, Hospital, Restaurant, Airport, Train Station, Fire Station, Library, Under the Sea.
 
 Fitur lain:
 - **Tap salah = tetap belajar**: game bilang "Oops! That's the bed."
@@ -67,7 +67,7 @@ Model 3D benda memakai [Microsoft Fluent Emoji](https://github.com/microsoft/flu
 
 Semua kalimat di tema bawaan direkam lebih dulu dengan [Kokoro](https://huggingface.co/hexgrad/Kokoro-82M)
 (model suara open-source, lisensi Apache 2.0, suara `af_heart`) dan disimpan di `public/voice/`.
-Kalimat yang tidak punya rekaman (misalnya Photo Scenes buatan sendiri) memakai suara bawaan perangkat.
+Kalimat yang tidak punya rekaman (Photo Scenes buatan sendiri, dan 10 tema terbaru mulai dari Farm) memakai suara bawaan perangkat.
 
 Setelah mengubah atau menambah kalimat di scene, rekam ulang. Hanya kalimat baru/berubah yang direkam:
 

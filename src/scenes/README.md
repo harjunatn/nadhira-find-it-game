@@ -5,7 +5,9 @@ Players hear "Find the lamp!", race to tap the lamp, then read a short sentence
 and a conversation question together. The players are a **5-year-old** and their
 parent (Indonesian family learning English), playing on an **iPad** (Safari).
 
-Look at `bedroom.jsx`. It is the reference for quality, style and density.
+Look at `bedroom.jsx`, `dentist.jsx`, `supermarket.jsx` and `school.jsx`. They are the
+reference for quality, style and density (`dentist`/`school` show a person standing
+behind a desk with `Foreground`; `supermarket` shows items placed on shelves).
 
 ## File shape
 
@@ -19,6 +21,8 @@ const scene = {
   titleId: 'Ruang Tamu',      // Indonesian
   icon: '🛋️',
   Background,
+  Foreground,                 // optional: scenery drawn ABOVE the objects (a desk/counter in front of a person)
+  hideBehind: ['🐚', '🪨'],   // optional: what things hide behind in Hard mode (3–5 emoji, not used as objects)
   objects: [ /* 18–24 objects */ ],
 };
 export default scene;
@@ -65,14 +69,34 @@ export default scene;
 - Use `art` for things emoji can't show well (furniture, sink, fire hydrant,
   zebra crossing, street lamp…). Draw them nicely: fills + darker outline strokes,
   `strokeLinejoin="round"`, simple highlights. Check them in the cards render.
-- Only use emoji available on iPadOS 16 (Unicode Emoji ≤ 14.0). Prefer emoji that
-  clearly show the whole thing (e.g. 🐘 full elephant). Face-only emoji (🦁 🐻 🐼) are OK.
+- Emoji are drawn as **3D pictures** (Microsoft Fluent Emoji 3D), not the device font.
+  Every emoji object must have a 3D picture — the validator reports an error otherwise.
+  Look at the `-cards.png` render: the 3D picture can differ from the emoji you know
+  (colour, angle), and sentences about colour must match the 3D picture.
+- The 3D pictures are 256 px, so keep emoji `size` ≤ 300; draw anything bigger
+  (furniture, buildings, vehicles that must be huge) as `art`.
+- Person emoji (👩‍⚕️ 🧑‍🍳 👮 …) show only the upper body. Put them behind a desk/counter
+  drawn in `Foreground` (bottom of the picture = top of the counter), like `dentist.jsx`.
+- Prefer emoji that clearly show the whole thing (🐘 full elephant). Face-only (🦁 🐼) is OK.
 - If something in the Background looks like a thing a child would name, make it an
   object instead (or remove it). Decoration must not look tappable.
 - SVG ids (gradients, patterns) must be prefixed with the scene id: `living-room-wall`.
 - No text in the picture (the child can't read yet, and it gives answers away).
 - Big furniture first, then things on/around it; objects on top of big ones are fine
   (the hit test prefers the smaller object).
+
+## Hard mode
+
+In Hard mode things are drawn ~30% smaller and about half of them get a "hiding spot"
+emoji drawn over one side. Give the scene `hideBehind` with 3–5 emoji that make sense
+there and are not objects in the scene (beach: 🐚 🪨 🏖️…, space: ☁️ 🪨…, farm: 🌾 🪵…).
+Without it, indoor scenes use 📦 🛍️ 🎁 🧺.
+
+## Voice
+
+Every English line is pre-recorded with a natural voice after the scene is written,
+using exactly the strings in the scene (and in `src/lib/phrases.js`). Nothing to do
+here; just write lines that sound natural when read aloud.
 
 ## Tools
 

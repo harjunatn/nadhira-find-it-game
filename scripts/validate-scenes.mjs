@@ -3,6 +3,7 @@
 //        npm run validate -- zoo     (one scene)
 import { importBundled } from './bundle.mjs';
 import { hitShape, hitTest } from '../src/lib/geometry.js';
+import { hasFluent } from '../src/lib/fluent.js';
 
 const W = 1600;
 const H = 1200;
@@ -28,6 +29,9 @@ for (const scene of BUILTIN_SCENES) {
   ids.add(scene.id);
   for (const f of ['id', 'title', 'titleId', 'icon']) if (!scene[f]) err(`scene is missing "${f}"`);
   if (typeof scene.Background !== 'function') err('scene.Background must be a React component');
+  if (scene.Foreground && typeof scene.Foreground !== 'function') err('scene.Foreground must be a React component');
+  for (const e of scene.hideBehind || []) if (!hasFluent(e)) err(`hideBehind: "${e}" has no 3D picture`);
+  for (const e of scene.hideBehind || []) if (scene.objects.some((o) => o.emoji === e)) warn(`hideBehind: "${e}" is also an object in this scene`);
   const objects = scene.objects || [];
   if (objects.length < 12) err(`only ${objects.length} objects (need at least 16)`);
   else if (objects.length < 16) warn(`only ${objects.length} objects (aim for 18-24)`);
@@ -46,6 +50,7 @@ for (const scene of BUILTIN_SCENES) {
     if (!!o.emoji === !!o.art) err(`${name}: needs exactly one of "emoji" or "art"`);
     if (o.art && typeof o.art !== 'function') err(`${name}: "art" must be a React component`);
     if (o.emoji && [...segmenter.segment(o.emoji)].length !== 1) warn(`${name}: emoji "${o.emoji}" is more than one character`);
+    if (o.emoji && !hasFluent(o.emoji)) err(`${name}: emoji "${o.emoji}" has no 3D picture — pick another emoji or draw it as art`);
     for (const f of ['x', 'y', 'size']) if (typeof o[f] !== 'number' || Number.isNaN(o[f])) err(`${name}: "${f}" must be a number`);
     if (o.x < 0 || o.x > W || o.y < 0 || o.y > H) err(`${name}: centre (${o.x}, ${o.y}) is outside the 1600x1200 picture`);
     if (o.size < 70) warn(`${name}: size ${o.size} is small for a 5-year-old (try >= 80)`);

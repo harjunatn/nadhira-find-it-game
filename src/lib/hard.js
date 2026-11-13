@@ -5,6 +5,7 @@
 const INDOOR = ['📦', '🛍️', '🎁', '🧺'];
 const OUTDOOR = ['🌿', '🪨', '🪵', '📦', '🌳'];
 const OUTDOOR_SCENES = new Set(['zoo', 'street', 'playground']);
+export const HIDING_SPOTS = [...new Set([...INDOOR, ...OUTDOOR])];
 
 const SHRINK = 0.72;
 const MAX_HIDE_SIZE = 220; // big furniture is never hidden or shrunk
@@ -12,7 +13,9 @@ const MAX_HIDE_SIZE = 220; // big furniture is never hidden or shrunk
 export function makeHard(scene) {
   if (scene.kind === 'photo') return scene;
   const used = new Set(scene.objects.map((o) => o.emoji).filter(Boolean));
-  const pool = (OUTDOOR_SCENES.has(scene.id) ? OUTDOOR : INDOOR).filter((e) => !used.has(e));
+  // A scene can name its own hiding spots (shells on the beach, clouds in space...).
+  const spots = scene.hideBehind || (OUTDOOR_SCENES.has(scene.id) ? OUTDOOR : INDOOR);
+  const pool = spots.filter((e) => !used.has(e));
   if (!pool.length) pool.push('📦');
 
   const covers = [];

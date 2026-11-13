@@ -4,6 +4,11 @@ import { useSettings } from '../settings.jsx';
 import { loadProgress } from '../lib/storage.js';
 import { sfx } from '../lib/sfx.js';
 
+const MODES = [
+  { id: 'together', icon: '🤝', title: 'Together', en: 'One big room. Then pick who found it.', id_: 'Satu ruangan besar, lalu pilih siapa yang menemukan.' },
+  { id: 'race', icon: '🏁', title: 'Race!', en: 'Split screen. Each player turns their own room.', id_: 'Layar dibagi dua, masing-masing memutar ruangannya sendiri.' },
+];
+
 // Pick a 3D room for hide and seek.
 export default function Setup3D({ scenes, initialSceneId, go, onStart }) {
   const { settings, update } = useSettings();
@@ -49,11 +54,28 @@ export default function Setup3D({ scenes, initialSceneId, go, onStart }) {
       </div>
 
       <div className="setup-footer">
-        <div className="tips-3d">
-          <div>
+        <div className="mode-3d">
+          <div className="mode-grid two">
+            {MODES.map((m) => (
+              <button
+                type="button"
+                key={m.id}
+                className={`mode-card ${settings.mode3d === m.id ? 'on' : ''}`}
+                onClick={() => {
+                  sfx.tap();
+                  update({ mode3d: m.id });
+                }}
+              >
+                <span className="mode-icon">{m.icon}</span>
+                <span className="mode-title">{m.title}</span>
+                <span className="mode-desc">{m.en}</span>
+                {settings.showIndonesian && <span className="id-text">{m.id_}</span>}
+              </button>
+            ))}
+          </div>
+          <div className="tips-3d">
             <b>👆 Drag</b> to turn the room · <b>🤏 Pinch</b> to zoom · <b>Tap</b> what you find
           </div>
-          {settings.showIndonesian && <div className="id-text">Geser untuk memutar ruangan · cubit untuk memperbesar · tap benda yang ketemu</div>}
         </div>
         <div className="setup-actions">
           <div className="rounds">
@@ -75,7 +97,7 @@ export default function Setup3D({ scenes, initialSceneId, go, onStart }) {
             disabled={!selected}
             onClick={() => {
               sfx.go();
-              onStart(selected.id);
+              onStart(selected.id, settings.mode3d);
             }}
           >
             {selected ? 'Start ▶' : 'Pick a room'}

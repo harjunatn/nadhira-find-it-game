@@ -131,7 +131,7 @@ export default function Hunt3D({ scene, queue, onExit, onFinish }) {
         <ScoreCard className="p0" player={players[0]} score={scores[0]} />
         <div className="stage3d-wrap">
           <Stage3D scene={scene} states={states} bubble={wrong ? { id: wrong.id, text: wrong.text } : null} onTap={handleTap} onTurn={() => setTurned(true)} />
-          {!turned && (
+          {!turned && phase === 'seek' && (
             <div className="turn-tip">
               👆 Drag to turn the room{settings.showIndonesian && <span className="id-text"> · Geser untuk memutar ruangan</span>}
             </div>

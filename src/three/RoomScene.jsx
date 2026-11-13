@@ -45,7 +45,7 @@ export function worldPosition(room, item) {
 }
 
 // Soft studio lighting: an environment for gentle ambient shading plus one sun for shadows.
-export function Lights({ size = 4 }) {
+export function Lights({ size = 4, shadowSize = 2048 }) {
   const { gl, scene } = useThree();
   useEffect(() => {
     const pmrem = new THREE.PMREMGenerator(gl);
@@ -62,7 +62,7 @@ export function Lights({ size = 4 }) {
   return (
     <>
       <hemisphereLight args={['#ffffff', '#d8c8b8', 0.75]} />
-      <directionalLight position={[size * 0.9, size * 2.2, size * 1.3]} intensity={1.55} castShadow shadow-mapSize={[2048, 2048]} shadow-bias={-0.0003} shadow-normalBias={0.02}>
+      <directionalLight position={[size * 0.9, size * 2.2, size * 1.3]} intensity={1.55} castShadow shadow-mapSize={[shadowSize, shadowSize]} shadow-bias={-0.0003} shadow-normalBias={0.02}>
         <orthographicCamera attach="shadow-camera" args={[-s, s, s, -s, 0.1, size * 6]} />
       </directionalLight>
       {/* fill light from the other side so walls facing away from the sun are not gloomy */}
@@ -307,7 +307,7 @@ function Wall({ room, side, items, states, bubble }) {
  * bubble  { id, text } shown above one item
  * onTap   (item | null) — the thing that was tapped (null for floor, walls, scenery without a word)
  */
-export function RoomScene({ scene, states = {}, bubble = null, onTap }) {
+export function RoomScene({ scene, states = {}, bubble = null, onTap, shadowSize = 2048 }) {
   const { room, items } = scene;
   const byId = useMemo(() => Object.fromEntries(items.map((it) => [it.id, it])), [items]);
   const loose = items.filter((it) => !it.wall && !it.segment);
@@ -326,7 +326,7 @@ export function RoomScene({ scene, states = {}, bubble = null, onTap }) {
 
   return (
     <>
-      <Lights size={Math.max(room.w, room.d)} />
+      <Lights size={Math.max(room.w, room.d)} shadowSize={shadowSize} />
       <group onClick={handleClick}>
         <Floor room={room} />
         {!room.outdoor &&

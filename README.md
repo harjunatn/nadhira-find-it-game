@@ -23,7 +23,13 @@ semak, jadi harus memutar ruangan untuk menemukannya — seperti petak umpet. Di
 kamera otomatis turun supaya bagian dalam selalu terlihat.
 
 Ruangan 3D: Bedroom, Living Room, Kitchen, Animal Park (taman satwa di luar ruangan).
-Alurnya sama dengan mode Together (cari → kalimat → "Let's talk!" → siapa yang menemukan).
+
+- **🤝 Together** — satu ruangan besar; alurnya sama dengan mode Together 2D
+  (cari → kalimat → "Let's talk!" → siapa yang menemukan).
+- **🏁 Race** — layar dibagi dua, tiap pemain punya tampilan 3D sendiri dari ruangan yang sama dan
+  memutarnya sendiri-sendiri; tap pertama yang benar menang. iPad tegak: layar atas terbalik
+  (duduk berhadapan). iPad miring: bersebelahan. Waktu tunggu pemain 2 berlaku juga di sini.
+
 Ruangan 3D belum bersuara; rekam dengan `node generate.mjs --3d` di `tools/voice` kalau mau.
 
 Fitur lain:

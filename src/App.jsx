@@ -21,6 +21,7 @@ import Setup3D from './screens/Setup3D.jsx';
 
 // The 3D engine is big, so it is only downloaded when a 3D room is opened.
 const Hunt3D = lazy(() => import('./screens/Hunt3D.jsx'));
+const Race3D = lazy(() => import('./screens/Race3D.jsx'));
 
 export default function App() {
   return (
@@ -84,10 +85,10 @@ function Main() {
     go('play', { sceneId, mode, scene, queue: makeQueue(scene, settings.rounds), key: Date.now() });
   };
 
-  const start3d = (sceneId) => {
+  const start3d = (sceneId, mode = settings.mode3d) => {
     const scene = findScene(sceneId);
     if (!scene) return;
-    go('play3d', { sceneId, queue: makeQueue(scene, settings.rounds), key: Date.now() });
+    go('play3d', { sceneId, mode, queue: makeQueue(scene, settings.rounds), key: Date.now() });
   };
 
   switch (route.name) {
@@ -97,6 +98,7 @@ function Main() {
     case 'play3d': {
       const scene = findScene(route.sceneId);
       if (!scene) return <HomeScreen go={go} />;
+      const Game3D = route.mode === 'race' ? Race3D : Hunt3D;
       return (
         <Suspense
           fallback={
@@ -108,12 +110,12 @@ function Main() {
             </div>
           }
         >
-          <Hunt3D
+          <Game3D
             key={route.key}
             scene={scene}
             queue={route.queue}
             onExit={() => go('setup3d', { sceneId: scene.id })}
-            onFinish={(result) => go('results', { sceneId: scene.id, mode: '3d', result })}
+            onFinish={(result) => go('results', { sceneId: scene.id, mode: '3d', mode3d: route.mode, result })}
           />
         </Suspense>
       );
@@ -139,7 +141,7 @@ function Main() {
         <ResultsScreen
           scene={scene}
           result={route.result}
-          onAgain={() => (route.mode === '3d' ? start3d(scene.id) : start(scene.id, route.mode))}
+          onAgain={() => (route.mode === '3d' ? start3d(scene.id, route.mode3d) : start(scene.id, route.mode))}
           onChoose={() => go(route.mode === '3d' ? 'setup3d' : 'setup', { sceneId: scene.id })}
           onHome={() => go('home')}
         />

@@ -1,5 +1,5 @@
 3D models in this folder are from Kenney (www.kenney.nl):
-Furniture Kit 2.0, Food Kit, Cube Pets, Toy Car Kit, Holiday Kit and Nature Kit 2.1.
+Furniture Kit 2.0, Food Kit, Cube Pets, Toy Car Kit, Holiday Kit, Nature Kit 2.1 and Mini Market.
 
 License: Creative Commons Zero (CC0)
 http://creativecommons.org/publicdomain/zero/1.0/

@@ -5,6 +5,8 @@ import bedroom from './bedroom.js';
 import livingRoom from './livingRoom.js';
 import kitchen from './kitchen.js';
 import animalPark from './animalPark.js';
+import bathroom from './bathroom.js';
+import supermarket from './supermarket.js';
 
 // Several things may share one word (two windows, two pillows): `same: '<id>'` points
 // at the one that carries the text, and tapping any of them finds that word.
@@ -23,4 +25,4 @@ function prepare(scene) {
   return { ...scene, kind: '3d', items, objects, thumb: thumbUrl(scene.id, 'room.jpg') };
 }
 
-export const SCENES_3D = [bedroom, livingRoom, kitchen, animalPark].map(prepare);
+export const SCENES_3D = [bedroom, livingRoom, kitchen, bathroom, supermarket, animalPark].map(prepare);

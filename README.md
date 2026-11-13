@@ -22,7 +22,7 @@ Mode baru: ruangan 3D seperti rumah-rumahan yang bisa **diputar** (geser satu ja
 semak, jadi harus memutar ruangan untuk menemukannya — seperti petak umpet. Dinding di sisi
 kamera otomatis turun supaya bagian dalam selalu terlihat.
 
-Ruangan 3D: Bedroom, Living Room, Kitchen, Animal Park (taman satwa di luar ruangan).
+Ruangan 3D: Bedroom, Living Room, Kitchen, Bathroom, Supermarket, Animal Park (taman satwa di luar ruangan).
 
 - **🤝 Together** — satu ruangan besar; alurnya sama dengan mode Together 2D
   (cari → kalimat → "Let's talk!" → siapa yang menemukan).
@@ -79,7 +79,7 @@ Folder `dist/` berisi website statis yang bisa di-upload ke hosting gratis mana 
 ## Gambar
 
 - Tema 2D: gambar benda memakai [Microsoft Fluent Emoji](https://github.com/microsoft/fluentui-emoji) (lisensi MIT), dimuat dari jsDelivr. Furnitur besar dan latar digambar sebagai SVG.
-- Ruangan 3D: model dari [Kenney](https://www.kenney.nl) (lisensi CC0) — Furniture Kit, Food Kit, Cube Pets, Toy Car Kit, Holiday Kit, Nature Kit — disimpan di `public/models/`.
+- Ruangan 3D: model dari [Kenney](https://www.kenney.nl) (lisensi CC0) — Furniture Kit, Food Kit, Cube Pets, Toy Car Kit, Holiday Kit, Nature Kit, Mini Market — disimpan di `public/models/`.
 
 ## Suara
 

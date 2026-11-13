@@ -7,7 +7,7 @@ furniture, trees or rocks, so they have to walk around the room. Look at
 
 Rooms are plain data. The models are free CC0 files from Kenney in
 `public/models/<kit>/<name>.glb` (`furniture`, `food`, `pets`, `toycar`, `holiday`,
-`nature`), referred to as `"kit/name"`.
+`nature`, `market`), referred to as `"kit/name"`.
 
 ## Coordinates
 
@@ -38,7 +38,7 @@ const room = {
 | field | meaning |
 |---|---|
 | `id` | unique in the room |
-| `model` | `"kit/name"`, or `"shape/disc"` for a flat round plate (pond) |
+| `model` | `"kit/name"`, or `"shape/disc"` for a flat round plate (pond), or `"shape/slab"` with `size: [w, d]` for a flat rectangle that taps go through (water in the bathtub) |
 | `at`, `ry`, `scale` | position, turn, size (see sizes with the catalog page below) |
 | `tint` | `{ materialName: '#rrggbb' }` recolours parts of Furniture/Nature Kit models (`carpet`, `wood`, `_defaultMat`…) |
 | `animation` | a clip in the file to loop — the Cube Pets have `idle`, `eat`, `dance`… |
@@ -47,7 +47,9 @@ const room = {
 | `word`, `wordId`, `sentence`, `sentenceId`, `question`, `questionId`, `answer`, `answerId` | makes the thing findable; same language rules as the flat scenes (`src/scenes/README.md`) |
 | `same` | `'<id>'` — another copy of a findable thing (a second window, more trees): tapping it counts too |
 
-Things without `word` are scenery. Make hiding places on purpose: something behind the
+Things without `word` are scenery. Small findable things get an invisible tap box of at least
+0.34 wide, so don't put one *inside* another small findable thing (milk in a basket): the outer
+one would catch every tap. On top of furniture or in a big cart is fine. Make hiding places on purpose: something behind the
 sofa, in the corner behind the wardrobe, behind a rock. Everything must be visible from
 *some* side — don't put things under tables or inside closed furniture.
 

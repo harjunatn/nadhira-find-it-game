@@ -231,7 +231,7 @@ function Item({ item, state, bubble, wallPiece = false }) {
   return (
     <group userData={{ itemId: item.id }}>
       <group ref={anim}>
-        <Model model={item.model} scale={scale} tint={item.tint} animation={item.animation} castShadow={!wallPiece} onBounds={setBounds} />
+        <Model model={item.model} scale={scale} tint={item.tint} size={item.size} animation={item.animation} castShadow={!wallPiece} onBounds={setBounds} />
       </group>
       {needsProxy && (
         <mesh visible={false} userData={{ proxy: true }} position={[0, Math.max(size[1] * 1.1, 0.3) / 2, 0]}>

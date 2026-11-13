@@ -66,25 +66,35 @@ function tinted(material, color) {
  *   animation  name of a clip in the file to loop ("idle" for the Cube Pets)
  */
 // "shape/disc" is a flat round plate one unit wide (ponds, puddles); tint.color sets its colour.
-const DISC_BOUNDS = { min: new THREE.Vector3(-0.5, 0, -0.5), max: new THREE.Vector3(0.5, 0.012, 0.5), size: new THREE.Vector3(1, 0.012, 1), center: new THREE.Vector3(0, 0.006, 0) };
+// "shape/slab" is a flat rectangle of `size: [w, d]` (water in a bathtub). It is decoration only:
+// taps go straight through it to whatever is underneath.
+const noRaycast = () => null;
 
-function Disc({ tint, onBounds, ...props }) {
+function Shape({ model, tint, size, onBounds, ...props }) {
+  const round = model !== 'shape/slab';
+  const [w, d] = round ? [1, 1] : size || [1, 1];
   useEffect(() => {
-    if (onBounds) onBounds(DISC_BOUNDS);
+    if (!onBounds) return;
+    onBounds({
+      min: new THREE.Vector3(-w / 2, 0, -d / 2),
+      max: new THREE.Vector3(w / 2, 0.012, d / 2),
+      size: new THREE.Vector3(w, 0.012, d),
+      center: new THREE.Vector3(0, 0.006, 0),
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <group {...props}>
-      <mesh position={[0, 0.006, 0]} receiveShadow>
-        <cylinderGeometry args={[0.5, 0.5, 0.012, 40]} />
+      <mesh position={[0, 0.006, 0]} receiveShadow {...(round ? null : { raycast: noRaycast })}>
+        {round ? <cylinderGeometry args={[0.5, 0.5, 0.012, 40]} /> : <boxGeometry args={[w, 0.012, d]} />}
         <meshStandardMaterial color={(tint && tint.color) || '#4fb3ee'} roughness={0.18} metalness={0.05} />
       </mesh>
     </group>
   );
 }
 
-export function Model(props) {
-  return props.model.startsWith('shape/') ? <Disc {...props} /> : <GlbModel {...props} />;
+export function Model({ size, ...props }) {
+  return props.model.startsWith('shape/') ? <Shape size={size} {...props} /> : <GlbModel {...props} />;
 }
 
 function GlbModel({ model, tint, animation, castShadow = true, receiveShadow = true, onBounds, children, ...props }) {

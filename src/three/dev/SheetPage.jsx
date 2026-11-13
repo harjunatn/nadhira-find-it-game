@@ -20,8 +20,10 @@ const fit = (room) => fitDistance(room, 4 / 3);
 function SheetShots({ scene, views, cell, cols, file, labelAll }) {
   const { gl, scene: world, camera } = useThree();
   useEffect(() => {
+    let live = true;
     (async () => {
       await wait(1200);
+      if (!live) return;
       const [cw, ch] = cell;
       const rows = Math.ceil(views.length / cols);
       const sheet = document.createElement('canvas');
@@ -34,6 +36,7 @@ function SheetShots({ scene, views, cell, cols, file, labelAll }) {
         const v = views[i];
         orbit(camera, v);
         await wait(500); // let the walls slide into place
+        if (!live) return;
         const shot = snap(gl, world, camera, cw, ch);
         const x = (i % cols) * cw;
         const y = Math.floor(i / cols) * ch;
@@ -50,6 +53,9 @@ function SheetShots({ scene, views, cell, cols, file, labelAll }) {
       await post(`renders/${file}.png`, sheet.toDataURL('image/png'));
       document.title = `saved ${file}`;
     })();
+    return () => {
+      live = false;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return null;
@@ -86,17 +92,24 @@ function ThumbShot({ scene, item, onDone }) {
   const [bounds, setBounds] = useState(null);
   const scale = item.scale || 1;
   useEffect(() => {
-    if (!bounds) return;
+    if (!bounds) return undefined;
+    // A hot reload re-runs this effect and the next thing replaces this one: a shot that is
+    // still waiting must then give up, or it would photograph the wrong thing under this name.
+    let live = true;
     (async () => {
       await wait(350);
+      if (!live) return;
       const size = bounds.size.clone().multiplyScalar(scale);
       const r = size.length() / 2;
       orbit(camera, { az: 32, pol: 62, dist: (r / Math.sin(THREE.MathUtils.degToRad(FOV / 2))) * 1.08, target: [0, size.y / 2, 0] });
       gl.setClearColor(0x000000, 0);
       const shot = snap(gl, world, camera, 256, 256);
       await post(`thumbs/${scene.id}/${item.id}.png`, shot.toDataURL('image/png'));
-      onDone();
+      if (live) onDone();
     })();
+    return () => {
+      live = false;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bounds]);
   const tint = item.segment ? { _defaultMat: scene.room.wallColor || '#ffffff', ...(item.tint || {}) } : item.tint;
@@ -106,10 +119,13 @@ function ThumbShot({ scene, item, onDone }) {
 function RoomShot({ scene, onDone }) {
   const { gl, scene: world, camera } = useThree();
   useEffect(() => {
+    let live = true;
     (async () => {
       await wait(1200);
+      if (!live) return;
       orbit(camera, { az: 35, pol: 55, dist: fit(scene.room) });
       await wait(600);
+      if (!live) return;
       const shot = snap(gl, world, camera, 800, 600);
       const out = document.createElement('canvas');
       out.width = 800;
@@ -122,8 +138,11 @@ function RoomShot({ scene, onDone }) {
       ctx.fillRect(0, 0, 800, 600);
       ctx.drawImage(shot, 0, 0);
       await post(`thumbs/${scene.id}/room.jpg`, out.toDataURL('image/jpeg', 0.86));
-      onDone();
+      if (live) onDone();
     })();
+    return () => {
+      live = false;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return <RoomScene scene={scene} />;

@@ -8,11 +8,15 @@
     "build": "vite build",
     "preview": "vite preview --host",
     "validate": "node scripts/validate-scenes.mjs",
-    "render": "node scripts/render-scene.mjs"
+    "render": "node scripts/render-scene.mjs",
+    "dev3d": "node scripts/dev3d-server.mjs"
   },
   "dependencies": {
+    "@react-three/drei": "9.122.0",
+    "@react-three/fiber": "8.18.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "three": "0.172.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",

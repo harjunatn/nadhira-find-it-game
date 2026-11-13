@@ -15,6 +15,17 @@ untuk ngobrol bareng dalam bahasa Inggris. Semua kalimat bisa dibacakan (tombol 
 
 Tema bawaan (22): Bedroom, Living Room, Bathroom, Kitchen, Zoo, Busy Street, Dentist, Supermarket, School, Playground, Fashion Store, Laboratory, Farm, Beach, Garden, Hospital, Restaurant, Airport, Train Station, Fire Station, Library, Under the Sea.
 
+### 🧊 3D Hide & Seek
+
+Mode baru: ruangan 3D seperti rumah-rumahan yang bisa **diputar** (geser satu jari) dan
+**diperbesar** (cubit). Benda-bendanya ada yang tersembunyi di balik sofa, lemari, batu, atau
+semak, jadi harus memutar ruangan untuk menemukannya — seperti petak umpet. Dinding di sisi
+kamera otomatis turun supaya bagian dalam selalu terlihat.
+
+Ruangan 3D: Bedroom, Living Room, Kitchen, Animal Park (taman satwa di luar ruangan).
+Alurnya sama dengan mode Together (cari → kalimat → "Let's talk!" → siapa yang menemukan).
+Ruangan 3D belum bersuara; rekam dengan `node generate.mjs --3d` di `tools/voice` kalau mau.
+
 Fitur lain:
 - **Tap salah = tetap belajar**: game bilang "Oops! That's the bed."
 - **😊 Easy / 🔎 Hard**: di mode Hard benda lebih kecil dan sebagian tersembunyi di balik kardus, tas, semak, atau batu (posisinya diacak tiap main).
@@ -61,7 +72,8 @@ Folder `dist/` berisi website statis yang bisa di-upload ke hosting gratis mana 
 
 ## Gambar
 
-Model 3D benda memakai [Microsoft Fluent Emoji](https://github.com/microsoft/fluentui-emoji) (lisensi MIT), dimuat dari jsDelivr. Furnitur besar dan latar digambar sebagai SVG.
+- Tema 2D: gambar benda memakai [Microsoft Fluent Emoji](https://github.com/microsoft/fluentui-emoji) (lisensi MIT), dimuat dari jsDelivr. Furnitur besar dan latar digambar sebagai SVG.
+- Ruangan 3D: model dari [Kenney](https://www.kenney.nl) (lisensi CC0) — Furniture Kit, Food Kit, Cube Pets, Toy Car Kit, Holiday Kit, Nature Kit — disimpan di `public/models/`.
 
 ## Suara
 
@@ -77,7 +89,9 @@ cd tools/voice && npm install && node generate.mjs
 
 ## Untuk pengembang
 
-- `src/scenes/*.jsx` — tema/scene bawaan. Format & aturan: `src/scenes/README.md`.
+- `src/scenes/*.jsx` — tema/scene 2D bawaan. Format & aturan: `src/scenes/README.md`.
+- `src/three/scenes/*.js` — ruangan 3D (data saja). Cara membuat & alat bantunya: `src/three/scenes/README.md`.
+- `src/three/` — mesin 3D (Three.js lewat react-three-fiber); hanya diunduh saat ruangan 3D dibuka.
 - `npm run validate` — cek semua scene (teks lengkap, area tap tidak bertabrakan, dll.).
 - `npm run render -- <id>` — render scene ke PNG di `.renders/` (butuh Google Chrome).
 - Tambah `?debug=1` di URL untuk melihat area tap setiap benda.

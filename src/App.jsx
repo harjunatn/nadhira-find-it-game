@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useMemo, useState } from 'react';
 import { SettingsProvider, useSettings } from './settings.jsx';
 import { BUILTIN_SCENES } from './scenes/index.js';
+import { SCENES_3D } from './three/scenes/index.js';
 import { listPhotoScenes } from './lib/storage.js';
 import { shuffle } from './lib/util.js';
 import { makeHard } from './lib/hard.js';
@@ -16,6 +17,10 @@ import StickerBook from './screens/StickerBook.jsx';
 import SettingsScreen from './screens/SettingsScreen.jsx';
 import PhotoScenes from './screens/PhotoScenes.jsx';
 import SceneEditor from './screens/SceneEditor.jsx';
+import Setup3D from './screens/Setup3D.jsx';
+
+// The 3D engine is big, so it is only downloaded when a 3D room is opened.
+const Hunt3D = lazy(() => import('./screens/Hunt3D.jsx'));
 
 export default function App() {
   return (
@@ -62,7 +67,8 @@ function Main() {
   }, []);
 
   const scenes = useMemo(() => [...BUILTIN_SCENES, ...photoScenes], [photoScenes]);
-  const findScene = (id) => scenes.find((s) => s.id === id);
+  const allScenes = useMemo(() => [...scenes, ...SCENES_3D], [scenes]);
+  const findScene = (id) => allScenes.find((s) => s.id === id);
 
   const go = useCallback((name, params = {}) => {
     stopSpeech();
@@ -78,7 +84,41 @@ function Main() {
     go('play', { sceneId, mode, scene, queue: makeQueue(scene, settings.rounds), key: Date.now() });
   };
 
+  const start3d = (sceneId) => {
+    const scene = findScene(sceneId);
+    if (!scene) return;
+    go('play3d', { sceneId, queue: makeQueue(scene, settings.rounds), key: Date.now() });
+  };
+
   switch (route.name) {
+    case 'setup3d':
+      return <Setup3D scenes={SCENES_3D} initialSceneId={route.sceneId} go={go} onStart={start3d} />;
+
+    case 'play3d': {
+      const scene = findScene(route.sceneId);
+      if (!scene) return <HomeScreen go={go} />;
+      return (
+        <Suspense
+          fallback={
+            <div className="screen home">
+              <div className="loading3d-box">
+                <div className="big-emoji">🧊</div>
+                Loading 3D…
+              </div>
+            </div>
+          }
+        >
+          <Hunt3D
+            key={route.key}
+            scene={scene}
+            queue={route.queue}
+            onExit={() => go('setup3d', { sceneId: scene.id })}
+            onFinish={(result) => go('results', { sceneId: scene.id, mode: '3d', result })}
+          />
+        </Suspense>
+      );
+    }
+
     case 'setup':
       return <SetupScreen scenes={scenes} initialSceneId={route.sceneId} go={go} onStart={start} />;
 
@@ -99,15 +139,15 @@ function Main() {
         <ResultsScreen
           scene={scene}
           result={route.result}
-          onAgain={() => start(scene.id, route.mode)}
-          onChoose={() => go('setup', { sceneId: scene.id })}
+          onAgain={() => (route.mode === '3d' ? start3d(scene.id) : start(scene.id, route.mode))}
+          onChoose={() => go(route.mode === '3d' ? 'setup3d' : 'setup', { sceneId: scene.id })}
           onHome={() => go('home')}
         />
       );
     }
 
     case 'stickers':
-      return <StickerBook scenes={scenes} go={go} />;
+      return <StickerBook scenes={allScenes} go={go} />;
 
     case 'settings':
       return <SettingsScreen go={go} />;

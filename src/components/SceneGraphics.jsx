@@ -120,6 +120,10 @@ export function SceneThumb({ scene, className }) {
 
 // Picture of a single object, for cards and the sticker book.
 export function ObjectArt({ scene, obj, size = 120, className, style }) {
+  // Things in 3D rooms come with a ready-made picture.
+  if (obj.thumb) {
+    return <img className={className} style={{ objectFit: 'contain', ...style }} src={obj.thumb} width={size} height={size} alt="" draggable={false} />;
+  }
   if (scene && scene.kind === 'photo') {
     const r = hitShape(obj).R * 1.35;
     return (

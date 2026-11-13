@@ -238,6 +238,11 @@ async function playLines(list, myRun, opts) {
   }
 }
 
+// True when a natural-voice recording exists for this line.
+export function hasRecording(text) {
+  return !!clipUrl((text || '').trim());
+}
+
 // Say one or more lines in order. Anything still being spoken is cut off first.
 export function speak(lines, opts = {}) {
   if (!enabled) return;

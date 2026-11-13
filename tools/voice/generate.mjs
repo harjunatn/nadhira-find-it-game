@@ -15,12 +15,15 @@ const VOICE = 'af_heart';
 const SPEED = 0.92;
 const OUT = path.join(root, 'public', 'voice');
 
-const { BUILTIN_SCENES, FIXED, sceneLines } = await importBundled(
-  `export { BUILTIN_SCENES } from '../src/scenes/index.js'; export { FIXED, sceneLines } from '../src/lib/phrases.js';`,
+// Usage: node generate.mjs        every flat scene
+//        node generate.mjs --3d   the flat scenes and the 3D rooms
+const { BUILTIN_SCENES, SCENES_3D, FIXED, sceneLines } = await importBundled(
+  `export { BUILTIN_SCENES } from '../src/scenes/index.js'; export { SCENES_3D } from '../src/three/scenes/index.js'; export { FIXED, sceneLines } from '../src/lib/phrases.js';`,
   'voice',
 );
 
-const lines = [...new Set([...Object.values(FIXED), ...BUILTIN_SCENES.flatMap(sceneLines)].map((s) => s.trim()).filter(Boolean))];
+const scenes = [...BUILTIN_SCENES, ...(process.argv.includes('--3d') ? SCENES_3D : [])];
+const lines = [...new Set([...Object.values(FIXED), ...scenes.flatMap(sceneLines)].map((s) => s.trim()).filter(Boolean))];
 const idOf = (text) => crypto.createHash('sha1').update(`${VOICE}|${SPEED}|${text}`).digest('hex').slice(0, 12);
 const fileOf = (text) => path.join(OUT, `${idOf(text)}.m4a`);
 

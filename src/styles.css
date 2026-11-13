@@ -1924,3 +1924,112 @@ h3 {
   justify-content: center;
   padding: 8px 16px calc(28px + env(safe-area-inset-bottom));
 }
+
+/* ---------- 3D rooms ---------- */
+
+.btn-purple {
+  background: var(--purple);
+  color: #fff;
+  box-shadow: 0 6px 0 #6e44d6;
+}
+.new-badge {
+  background: var(--yellow);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 0 10px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.badge-3d {
+  display: inline-block;
+  background: var(--purple);
+  color: #fff;
+  border-radius: 8px;
+  padding: 0 7px;
+  font-size: 14px;
+  line-height: 1.5;
+  vertical-align: middle;
+}
+.tips-3d {
+  flex: 1 1 420px;
+  max-width: 760px;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+}
+.game-main > .stage3d-wrap {
+  grid-area: scene;
+}
+.stage3d-wrap {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  border-radius: 22px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #a9dcff, #e6f6ff);
+  box-shadow: 0 0 0 5px #fff, 0 10px 0 5px rgba(0, 0, 0, 0.1);
+}
+.stage3d {
+  position: absolute;
+  inset: 0;
+  touch-action: none;
+}
+.stage3d canvas {
+  display: block;
+  touch-action: none;
+}
+.loading3d {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.loading3d-box {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 22px;
+  padding: 16px 26px;
+  font-size: 22px;
+  font-weight: 800;
+  text-align: center;
+}
+.turn-tip {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.93);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 20px;
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: 0 4px 0 var(--shadow);
+  pointer-events: none;
+}
+.hint3d {
+  font-size: 46px;
+  line-height: 1;
+  filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.2));
+  animation: hint3d 0.7s ease-in-out infinite alternate;
+}
+@keyframes hint3d {
+  from {
+    transform: translateY(-26px);
+  }
+  to {
+    transform: translateY(-6px);
+  }
+}
+.bubble3d {
+  transform: translateY(-70%);
+  background: #fff;
+  color: var(--ink);
+  border-radius: 18px;
+  padding: 6px 16px;
+  font-family: 'Baloo 2', ui-rounded, system-ui, sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.15);
+}

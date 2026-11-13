@@ -44,7 +44,8 @@ export default function StickerBook({ scenes, go }) {
               setSceneId(s.id);
             }}
           >
-            {s.icon || '📷'} {s.title} <span className="tab-count">{gotIn(s)}/{s.objects.length}</span>
+            {s.icon || '📷'} {s.title}
+            {s.kind === '3d' ? ' 3D' : ''} <span className="tab-count">{gotIn(s)}/{s.objects.length}</span>
           </button>
         ))}
       </div>

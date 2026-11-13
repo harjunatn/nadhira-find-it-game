@@ -29,6 +29,9 @@ export default function HomeScreen({ go }) {
           <button type="button" className="btn btn-big btn-play" onClick={tap('setup')}>
             ▶ Play
           </button>
+          <button type="button" className="btn btn-big btn-purple" onClick={tap('setup3d')}>
+            🧊 3D Hide &amp; Seek <span className="new-badge">NEW</span>
+          </button>
           <div className="home-row">
             <button type="button" className="btn btn-yellow" onClick={tap('stickers')}>
               📒 Sticker Book
